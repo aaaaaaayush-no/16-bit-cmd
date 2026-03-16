@@ -122,7 +122,17 @@ def main():
         "--color", choices=["green", "amber"], default="green",
         help="Text colour scheme (default: green)"
     )
+    parser.add_argument(
+        "--gui", action="store_true",
+        help="Launch GUI mode (Windows 7-style debugger interface)"
+    )
     args = parser.parse_args()
 
-    cli = DebugCLI(filename=args.filename, color=args.color)
-    cli.run()
+    # Launch GUI if requested
+    if args.gui:
+        from .gui import DebugGUI
+        gui = DebugGUI(filename=args.filename, color=args.color)
+        gui.run()
+    else:
+        cli = DebugCLI(filename=args.filename, color=args.color)
+        cli.run()
