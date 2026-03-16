@@ -10,7 +10,8 @@ built with real 8086 CPU emulation. Runs natively on modern systems
 - **Full Assembler** — [Keystone Engine](https://www.keystone-engine.org/) powers the `A` (assemble) command
 - **Full Disassembler** — [Capstone](https://www.capstone-engine.org/) powers the `U` (unassemble) command
 - **Complete Command Set** — All original DEBUG.COM commands: `A C D E F G H I L M N O P Q R S T U W ?`
-- **Authentic UI** — Green-on-black (or amber) monospace terminal using prompt_toolkit
+- **Dual Interface** — Choose between terminal CLI or Windows 7-style graphical GUI
+- **Authentic UI** — Green-on-black (or amber) monospace styling with DOS aesthetics
 - **File I/O** — Load and save `.COM` files directly from the filesystem
 - **1 MB Address Space** — Full 8086 memory with segment:offset addressing
 
@@ -130,6 +131,27 @@ python -m debug16 --color green   # Classic green phosphor (default)
 python -m debug16 --color amber   # Amber CRT style
 ```
 
+## GUI Mode (Windows 7-style Debugger)
+
+Launch the graphical interface with the `--gui` flag:
+
+```bash
+python -m debug16 --gui              # Launch GUI with green color scheme
+python -m debug16 --gui --color amber  # Launch GUI with amber color scheme
+python -m debug16 --gui samples/hello.com  # Load a file in GUI mode
+```
+
+The GUI provides:
+- **Register Panel** — Real-time display of all CPU registers (AX, BX, CX, DX, SP, BP, SI, DI, DS, ES, SS, CS, IP, FLAGS)
+- **Memory Dump Viewer** — Hexadecimal and ASCII view of memory with customizable address range
+- **Disassembly Viewer** — Disassembled instructions with address and opcodes
+- **Command Input/Output** — Interactive command execution with scrollable output history
+- **Menu Bar** — File operations (Load, Save, Quit) and help
+- **Tabbed Interface** — Switch between Memory Dump and Disassembly views
+
+![GUI Screenshot](docs/gui-screenshot.png)
+*Windows 7-style GUI with DOS green phosphor color scheme*
+
 ## Project Structure
 
 ```
@@ -138,6 +160,7 @@ python -m debug16 --color amber   # Amber CRT style
 │   ├── __init__.py          # Package metadata
 │   ├── __main__.py          # Entry point (python -m debug16)
 │   ├── cli.py               # DOS-style terminal interface
+│   ├── gui.py               # Windows 7-style GUI interface
 │   ├── cpu.py               # Unicorn Engine 8086 emulator wrapper
 │   ├── assembler.py         # Keystone Engine assembler wrapper
 │   ├── disassembler.py      # Capstone disassembler wrapper
@@ -169,7 +192,11 @@ python -m debug16 --color amber   # Amber CRT style
   identical syntax and output format to the original.
 
 - **CLI** (`cli.py`) — Uses prompt_toolkit for the DOS-style `"-"` prompt
-  with green/amber colour schemes.
+  with green/amber colour schemes. The traditional terminal interface.
+
+- **GUI** (`gui.py`) — Uses tkinter to provide a Windows 7-style graphical
+  debugger interface with register panel, memory viewer, disassembly viewer,
+  and command I/O. Shares the same backend as the CLI.
 
 ## Running Tests
 
